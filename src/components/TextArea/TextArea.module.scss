@@ -1,0 +1,23 @@
+.textarea {
+  align-items: center;
+  display: flex;
+  grid-area: textarea;
+  justify-content: flex-start;
+  height: 80px;
+  padding: 16px;
+  width: 100%;
+}
+
+.input {
+  background-color: oldlace;
+  border: transparent;
+  border-radius: 8px;
+  font-size: 20px;
+  height: 50px;
+  padding: 16px;
+  width: 100%;
+
+  &:focus-visible {
+    outline: transparent;
+  }
+}

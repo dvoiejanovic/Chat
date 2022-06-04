@@ -1,0 +1,9 @@
+.chatroom {
+  display: grid;
+  grid-template-areas: "board sidebar"
+  "textarea sidebar";
+  grid-template-columns: 1fr 240px;
+  grid-template-rows: 1fr 80px;
+  height: 100vh;
+  width: 100vw;
+}

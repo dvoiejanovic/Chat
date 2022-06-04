@@ -1,0 +1,11 @@
+body {
+  margin: 0;
+}
+
+input {
+  padding-left: 24px;
+
+  &:focus-visible {
+    outline: transparent;
+  }
+}

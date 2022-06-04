@@ -1,0 +1,28 @@
+.launchpad {
+  background-color: darkslategrey;
+  display: grid;
+  height: 100vh;
+  place-items: center;
+  width: 100vw;
+}
+
+.roomPicker {
+  display: flex;
+  gap: 16px;
+}
+
+.roomPickerWrapper {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.roomImage {
+  width: 240px;
+  height: 200px;
+}
+
+.heading {
+  color: orange;
+  font-size: 24px;
+}
