@@ -9,13 +9,12 @@ import Nature from './routes/Nature';
 import City from './routes/City';
 
 function App() {
-  console.log('app');
   return (
     <BrowserRouter>
       <Routes>
-        <Route path="/" element={<Launchpad />} />
-        <Route path="nature" element={<Nature />} />
-        <Route path="city" element={<City />} />
+        <Route path="/Chat" element={<Launchpad />} />
+        <Route path="/Chat/nature" element={<Nature />} />
+        <Route path="/Chat/city" element={<City />} />
       </Routes>
     </BrowserRouter>
   );
