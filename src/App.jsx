@@ -9,6 +9,7 @@ import Nature from './routes/Nature';
 import City from './routes/City';
 
 function App() {
+  console.log('app');
   return (
     <BrowserRouter>
       <Routes>

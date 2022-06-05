@@ -6,7 +6,7 @@ const TextArea = (props) => {
   const [text, setText] = useState('');
 
   const handleKeyDown = (e) => {
-    if (e.key === 'Enter') {
+    if (e.key === 'Enter' && text) {
       drone.publish({
         room: roomName,
         message: text

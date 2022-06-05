@@ -5,10 +5,21 @@ import TextArea from "../TextArea";
 import Sidebar from "../Sidebar";
 import Board from "../Board";
 import { formatToHoursAndMinutes } from "../../utils/time";
+import { avatars } from "../../constants/avatars";
+import { useSelector } from "react-redux";
 
 const ChatRoom = (props) => {
   const {roomName, userName, avatarId} = props;
-  const observableRoomName = `observable-${roomName}`
+
+  const user = useSelector((state) => state.user);
+  const [messages, setMessages] = useState([]);
+  const [members, setMembers] = useState([{
+    id: 1,
+    avatarSrc: avatars.find((avatar) => avatar.id === user.avatarId)?.source,
+    name: user.name
+  }]);
+
+  const observableRoomName = `observable-stari-${roomName}`
   const drone = new Scaledrone(import.meta.env.VITE_CHANNEL_ID, {
     data: {
       name: userName,
@@ -17,8 +28,13 @@ const ChatRoom = (props) => {
   });
   const room = drone.subscribe(observableRoomName);
 
-  const [messages, setMessages] = useState([]);
-  const [members, setMembers] = useState([]);
+  // const mapMembers = (member) => {
+  //   return {
+  //     name: member.clientData.name,
+  //     id: member.id,
+  //     avatarSrc: avatars.find((avatar) => avatar.id === member.clientData.avatarId)?.source
+  //   }
+  // }
 
   useEffect(() => {
     room.on('open', error => {
@@ -28,23 +44,24 @@ const ChatRoom = (props) => {
     });
 
     room.on('message', message => {
-      setMessages([...messages, {
+      setMessages(previousMessages => [...previousMessages, {
         text: message.data,
         id: message.id,
         time: formatToHoursAndMinutes(message.timestamp)
       }]);
     });
 
-    room.on('member_join', (member) => {
-      setMembers([...members, {
-        name: member.clientData.name,
-        avatarId: member.clientData.avatarId
-      }])
-    })
+    // room.on('members', (members) => {
+    //   setMembers(previousMembers => [...previousMembers, ...members.map((member) => mapMembers(member))]);
+    // });
 
-    room.on('member_leave', (deserter) => {
-      setMembers(members.filter((member) => member.id !== deserter.id))
-    })
+    // room.on('observable_member_join', (member) => {
+    //   setMembers(previousMembers => [...previousMembers, mapMembers(member)])
+    // })
+
+    // room.on('member_leave', (deserter) => {
+    //   setMembers(previousMembers => [...previousMembers.filter((member) => member.id !== deserter.id)])
+    // })
 
     return function cleanup() {
       room.on('close', event => {
@@ -52,13 +69,13 @@ const ChatRoom = (props) => {
       })
       drone.close();
     }
-  }, [messages, setMessages]);
+  }, [])
 
   return (
     <div className={styles.chatroom}>
       <Board messages={messages} />
       <TextArea drone={drone} roomName={observableRoomName} />
-      <Sidebar />
+      <Sidebar members={members} roomName={roomName} />
     </div>
   );
 };

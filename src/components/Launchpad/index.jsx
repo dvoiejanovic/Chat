@@ -1,4 +1,6 @@
 import { useState } from "react";
+import { useSelector } from "react-redux";
+
 import AvatarDialog from "../AvatarDialog";
 import styles from "./Launchpad.module.scss";
 import city from "../../assets/city.jpg";
@@ -6,7 +8,8 @@ import nature from "../../assets/nature.jpg";
 import { Link } from "react-router-dom";
 
 const Launchpad = () => {
-  const [isDialogOpen, setIsDialogOpen] = useState(true);
+  const user = useSelector((state) => state.user);
+  const [isDialogOpen, setIsDialogOpen] = useState(!user.name || !user.avatarId);
 
   return (
     <div className={styles.launchpad}>

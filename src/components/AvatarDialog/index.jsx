@@ -1,43 +1,29 @@
 import { useState } from "react";
+import { useDispatch } from 'react-redux';
 
 import styles from "./AvatarDialog.module.scss";
-import macak from "../../assets/macak.jpg";
-import pingvin from "../../assets/pingvin.jpg";
-import prasac from "../../assets/prasac.jpg";
-import zirafa from "../../assets/zirafa.jpg";
-import { Avatars } from "../../constants/avatars";
+import {setUser} from "../../redux/user-slice";
+import {avatars} from "../../constants/avatars";
 
 
 const AvatarDialog = (props) => {
-  const avatars = [
-    {
-      id: Avatars.CAT,
-      source: macak,
-    },
-    {
-      id: Avatars.GIRAFFE,
-      source: zirafa,
-    },
-    {
-      id: Avatars.PENGUIN,
-      source: pingvin,
-    },
-    {
-      id: Avatars.PIG,
-      source: prasac,
-    },
-  ];
-
   const { toggleDialog } = props;
   const [name, setName] = useState("");
-  const [selectedAvatar, setSelectedAvatar] = useState(undefined);
+  const [avatarId, setAvatarId] = useState(undefined);
+
+  const dispatch = useDispatch();
 
   const handleNameChange = (event) => {
     setName(event.target.value);
   }
 
   const selectAvatar = (id) => {
-    setSelectedAvatar(id);
+    setAvatarId(id);
+  }
+
+  const finish = () => {
+    dispatch(setUser({name, avatarId}));
+    toggleDialog(false);
   }
 
   return (
@@ -50,7 +36,7 @@ const AvatarDialog = (props) => {
               key={avatar.id}
               src={avatar.source}
               alt="avatar"
-              className={`${styles.avatar} ${selectedAvatar === avatar.id && styles.selectedAvatar}`}
+              className={`${styles.avatar} ${avatarId === avatar.id && styles.selectedAvatar}`}
               onClick={() => selectAvatar(avatar.id)}
             />
           ))}
@@ -70,8 +56,8 @@ const AvatarDialog = (props) => {
           <button
             type="button"
             className={styles.button}
-            disabled={!selectedAvatar || !name}
-            onClick={() => toggleDialog(false)}
+            disabled={!avatarId || !name}
+            onClick={finish}
           >
             Continue
           </button>
